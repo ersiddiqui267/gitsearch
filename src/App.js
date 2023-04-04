@@ -23,7 +23,7 @@ class App extends React.Component {
           this.setState({
             showAlert: false,
           });
-        }, 4000);
+        }, 1700);
 
         return;
       }
