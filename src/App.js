@@ -1,13 +1,17 @@
 import React from "react";
-import Navbar from "./components/layout/Navbar";
-import Users from "./components/users/Users";
-import Search from "./components/users/Search";
-import Alert from "./components/layout/Alert";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
+import Navbar from "./components/layout/Navbar";
+import Home from "./components/Home";
+import User from "./components/users/User";
+import About from "./pages/About";
+import Error from "./pages/Error";
 
 class App extends React.Component {
   state = {
     users: [],
+    user: {},
+    repos: [],
     loading: false,
     showAlert: false,
   };
@@ -46,6 +50,38 @@ class App extends React.Component {
     }
   };
 
+  getUser = async (username) => {
+    try {
+      console.log(username);
+      this.setState({
+        loading: true,
+      });
+
+      const response = await axios.get(
+        `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      );
+
+      this.setState({
+        user: response.data,
+        loading: false,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  getRepos = async (username) => {
+    const response = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+
+    console.log(response.data);
+
+    this.setState({
+      repos: response.data,
+    });
+  };
+
   clearUsers = () => {
     this.setState({
       users: [],
@@ -54,18 +90,43 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Navbar />
-        <div className="container-sm">
-          <Alert showAlert={this.state.showAlert} />
-          <Search
-            searchUsers={this.searchUsers}
-            clearUsers={this.clearUsers}
-            showClear={this.state.users.length > 0 ? true : false}
-          />
-          <Users loading={this.state.loading} users={this.state.users} />
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="container-sm mb-5">
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  <Home
+                    searchUsers={this.searchUsers}
+                    clearUsers={this.clearUsers}
+                    showAlert={this.state.showAlert}
+                    users={this.state.users}
+                    loading={this.state.loading}
+                  />
+                }
+              />
+              <Route exact path="/about" element={<About />} />
+              <Route
+                exact
+                path="/user/:login"
+                element={
+                  <User
+                    getUser={this.getUser}
+                    getRepos={this.getRepos}
+                    loading={this.state.loading}
+                    user={this.state.user}
+                    repos={this.state.repos}
+                  />
+                }
+              />
+              <Route path="*" element={<Error />} />
+            </Routes>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }

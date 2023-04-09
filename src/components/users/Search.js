@@ -35,7 +35,7 @@ class Search extends React.Component {
     return (
       <form className="d-grid gap-3 mt-4" onSubmit={this.handleSubmit}>
         <input
-          className="form-control shadow"
+          className="form-control shadow rounded-0"
           type="search"
           name="query"
           placeholder="Search Users..."
@@ -43,13 +43,13 @@ class Search extends React.Component {
           onChange={this.handleChange}
         />
         <input
-          className="btn btn-block btn-dark"
+          className="btn btn-block btn-dark rounded-0"
           type="submit"
           value="Search"
         />
         {this.props.showClear ? (
           <button
-            className="btn btn-block btn-secondary"
+            className="btn btn-block btn-secondary rounded-0"
             type="button"
             onClick={this.handleClick}
           >

@@ -1,11 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const Navbar = function (props) {
   return (
     <nav className="navbar bg-danger p-3 justify-content-start text-light">
       <i className={props.icon}></i>
-      <h4 className="mx-3">{props.title}</h4>
+      <h4 className="mx-3 me-auto">{props.title}</h4>
+      <Link to="/" className="nav-link px-2">
+        Home
+      </Link>
+      <Link to="/about" className="nav-link px-2">
+        About
+      </Link>
     </nav>
   );
 };
