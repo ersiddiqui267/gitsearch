@@ -52,7 +52,6 @@ class App extends React.Component {
 
   getUser = async (username) => {
     try {
-      console.log(username);
       this.setState({
         loading: true,
       });
@@ -74,8 +73,6 @@ class App extends React.Component {
     const response = await axios.get(
       `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
-
-    console.log(response.data);
 
     this.setState({
       repos: response.data,
