@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const UserItem = function (props) {
+const UserItem = function ({ user }) {
   return (
     <div
       className="card shadow-sm rounded-0 p-2 my-3"
@@ -10,16 +10,13 @@ const UserItem = function (props) {
     >
       <img
         className="rounded-circle d-block mx-auto my-4"
-        src={props.user.avatar_url}
+        src={user.avatar_url}
         alt=""
         width="40%"
       />
       <div className="card-body text-center">
-        <h5 className="card-title">{props.user.login}</h5>
-        <Link
-          to={`/user/${props.user.login}`}
-          className="btn btn-dark btn-sm mt-4"
-        >
+        <h5 className="card-title">{user.login}</h5>
+        <Link to={`/user/${user.login}`} className="btn btn-dark btn-sm mt-4">
           More
         </Link>
       </div>

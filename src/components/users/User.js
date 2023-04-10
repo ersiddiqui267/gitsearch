@@ -37,7 +37,7 @@ class User extends React.Component {
     return (
       <React.Fragment>
         <div className="d-flex justify-content-between align-items-center">
-          <Link to="/" className="btn btn-dark btn-sm my-3">
+          <Link to="/" className="btn btn-dark btn-sm rounded-0 my-3">
             Back to Search
           </Link>
           <span>
@@ -106,22 +106,22 @@ class User extends React.Component {
 
         <div className="row mx-0 border my-2 p-3">
           <div className="col-6 col-sm-3 text-center my-1">
-            <span className="badge text-bg-success">
+            <span className="badge rounded-0 text-bg-success">
               Followers: {followers}
             </span>
           </div>
           <div className="col-6 col-sm-3 text-center my-1">
-            <span className="badge text-bg-primary">
+            <span className="badge rounded-0 text-bg-primary">
               Following: {following}
             </span>
           </div>
           <div className="col-6 col-sm-3 text-center my-1">
-            <span className="badge text-bg-dark">
+            <span className="badge rounded-0 text-bg-dark">
               Public Repos: {public_repos}
             </span>
           </div>
           <div className="col-6 col-sm-3 text-center my-1">
-            <span className="badge text-bg-danger">
+            <span className="badge rounded-0 text-bg-danger">
               Public Gists: {public_gists}
             </span>
           </div>

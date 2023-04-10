@@ -1,7 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const RepoItem = function (props) {
-  const { repo } = props;
+const RepoItem = function ({ repo }) {
   return (
     <a
       className="list-group-item list-group-item-action"
@@ -12,6 +12,10 @@ const RepoItem = function (props) {
       <u>{repo.name}</u>
     </a>
   );
+};
+
+RepoItem.propTypes = {
+  repo: PropTypes.object.isRequired,
 };
 
 export default RepoItem;

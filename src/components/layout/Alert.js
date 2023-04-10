@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Alert = function (props) {
-  if (!props.showAlert) return;
+const Alert = function ({ showAlert, icon, message, type }) {
+  if (!showAlert) return;
 
   return (
-    <div className={`alert mt-4 p-2 ${props.type}`}>
-      <i className={props.icon}></i> {props.message}
+    <div className={`alert rounded-0 mt-4 p-2 ${type}`}>
+      <i className={icon}></i> {message}
     </div>
   );
 };

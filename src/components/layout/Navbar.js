@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const Navbar = function (props) {
+const Navbar = function ({ title, icon }) {
   return (
     <nav className="navbar bg-danger p-3 justify-content-start text-light">
-      <i className={props.icon}></i>
-      <h4 className="mx-3 me-auto">{props.title}</h4>
+      <i className={icon}></i>
+      <h4 className="mx-3 me-auto">{title}</h4>
       <Link to="/" className="nav-link px-2">
         Home
       </Link>

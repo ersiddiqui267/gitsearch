@@ -1,64 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-class Search extends React.Component {
-  state = {
-    query: "",
-  };
+const Search = function ({ searchUsers, clearUsers, showClear }) {
+  const [query, setQuery] = useState("");
 
-  static propTypes = {
-    searchUsers: PropTypes.func.isRequired,
-    clearUsers: PropTypes.func.isRequired,
-    showClear: PropTypes.bool.isRequired,
-  };
+  const handleChange = (e) => setQuery(e.target.value);
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.props.searchUsers(this.state.query);
-    this.setState({
-      query: "",
-    });
+    searchUsers(query);
+    setQuery("");
   };
 
-  handleClick = (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
-    this.props.clearUsers();
+    clearUsers();
   };
 
-  render() {
-    return (
-      <form className="d-grid gap-3 mt-4" onSubmit={this.handleSubmit}>
-        <input
-          className="form-control shadow rounded-0"
-          type="search"
-          name="query"
-          placeholder="Search Users..."
-          value={this.state.query}
-          onChange={this.handleChange}
-        />
-        <input
-          className="btn btn-block btn-dark rounded-0"
-          type="submit"
-          value="Search"
-        />
-        {this.props.showClear ? (
-          <button
-            className="btn btn-block btn-secondary rounded-0"
-            type="button"
-            onClick={this.handleClick}
-          >
-            Clear
-          </button>
-        ) : null}
-      </form>
-    );
-  }
-}
+  return (
+    <form className="d-grid gap-3 mt-4" onSubmit={handleSubmit}>
+      <input
+        className="form-control shadow rounded-0"
+        type="search"
+        name="query"
+        placeholder="Search Users..."
+        value={query}
+        onChange={handleChange}
+      />
+      <input
+        className="btn btn-block btn-dark rounded-0"
+        type="submit"
+        value="Search"
+      />
+      {showClear ? (
+        <button
+          className="btn btn-block btn-secondary rounded-0"
+          type="button"
+          onClick={handleClick}
+        >
+          Clear
+        </button>
+      ) : null}
+    </form>
+  );
+};
+
+Search.propTypes = {
+  searchUsers: PropTypes.func.isRequired,
+  clearUsers: PropTypes.func.isRequired,
+  showClear: PropTypes.bool.isRequired,
+};
 
 export default Search;

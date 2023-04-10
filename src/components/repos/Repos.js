@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import RepoItem from "./RepoItem";
 
-const Repos = function (props) {
-  if (!props.repos.length)
+const Repos = function ({ repos }) {
+  if (!repos.length)
     return (
       <div className="border">
         <p>No Repos Yet!</p>
@@ -11,11 +12,15 @@ const Repos = function (props) {
 
   return (
     <div className="border p-0 m-0 list-group list-group-flush">
-      {props.repos.map((repo) => (
+      {repos.map((repo) => (
         <RepoItem key={repo.id} repo={repo} />
       ))}
     </div>
   );
+};
+
+Repos.propTypes = {
+  repos: PropTypes.array.isRequired,
 };
 
 export default Repos;
