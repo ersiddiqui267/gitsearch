@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/layout/Navbar";
@@ -7,125 +7,101 @@ import User from "./components/users/User";
 import About from "./pages/About";
 import Error from "./pages/Error";
 
-class App extends React.Component {
-  state = {
-    users: [],
-    user: {},
-    repos: [],
-    loading: false,
-    showAlert: false,
-  };
+const App = function () {
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
+  const [repos, setRepos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
-  searchUsers = async (query) => {
+  const searchUsers = async (query) => {
     try {
       if (!query) {
-        this.setState({
-          showAlert: true,
-        });
+        setShowAlert(true);
 
-        setTimeout(() => {
-          this.setState({
-            showAlert: false,
-          });
-        }, 1700);
+        setTimeout(() => setShowAlert(false), 1700);
 
         return;
       }
 
-      this.setState({
-        loading: true,
-        showAlert: false,
-      });
+      setLoading(true);
+      setShowAlert(false);
 
       const response = await axios.get(
         `https://api.github.com/search/users?q=${query}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
       );
 
-      this.setState({
-        users: response.data.items,
-        loading: false,
-      });
+      setUsers(response.data.items);
+      setLoading(false);
     } catch (err) {
       console.error(err);
     }
   };
 
-  getUser = async (username) => {
+  const getUser = async (username) => {
     try {
-      this.setState({
-        loading: true,
-      });
+      setLoading(true);
 
       const response = await axios.get(
         `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
       );
 
-      this.setState({
-        user: response.data,
-        loading: false,
-      });
+      setUser(response.data);
+      setLoading(false);
     } catch (err) {
       console.error(err);
     }
   };
 
-  getRepos = async (username) => {
+  const getRepos = async (username) => {
     const response = await axios.get(
       `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
-    this.setState({
-      repos: response.data,
-    });
+    setRepos(response.data);
   };
 
-  clearUsers = () => {
-    this.setState({
-      users: [],
-    });
-  };
+  const clearUsers = () => setUsers([]);
 
-  render() {
-    return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <div className="container-sm mb-5">
-            <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <Home
-                    searchUsers={this.searchUsers}
-                    clearUsers={this.clearUsers}
-                    showAlert={this.state.showAlert}
-                    users={this.state.users}
-                    loading={this.state.loading}
-                  />
-                }
-              />
-              <Route exact path="/about" element={<About />} />
-              <Route
-                exact
-                path="/user/:login"
-                element={
-                  <User
-                    getUser={this.getUser}
-                    getRepos={this.getRepos}
-                    loading={this.state.loading}
-                    user={this.state.user}
-                    repos={this.state.repos}
-                  />
-                }
-              />
-              <Route path="*" element={<Error />} />
-            </Routes>
-          </div>
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="container-sm mb-5">
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <Home
+                  searchUsers={searchUsers}
+                  clearUsers={clearUsers}
+                  showAlert={showAlert}
+                  users={users}
+                  loading={loading}
+                />
+              }
+            />
+            <Route exact path="/about" element={<About />} />
+            <Route
+              exact
+              path="/user/:username"
+              element={
+                <User
+                  getUser={getUser}
+                  getRepos={getRepos}
+                  loading={loading}
+                  user={user}
+                  repos={repos}
+                />
+              }
+            />
+            <Route path="*" element={<Error />} />
+          </Routes>
         </div>
-      </Router>
-    );
-  }
-}
+      </div>
+    </Router>
+  );
+};
 
 export default App;
