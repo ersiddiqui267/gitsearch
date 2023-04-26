@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
+import GithubContext from "../../contexts/github/githubContext";
 
-const Search = function ({ searchUsers, clearUsers, showClear }) {
+const Search = function ({ showClear }) {
+  const githubContext = useContext(GithubContext);
+
   const [query, setQuery] = useState("");
 
   const handleChange = (e) => setQuery(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchUsers(query);
+    githubContext.searchUsers(query);
     setQuery("");
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    clearUsers();
+    githubContext.clearUsers();
   };
 
   return (
@@ -46,8 +49,6 @@ const Search = function ({ searchUsers, clearUsers, showClear }) {
 };
 
 Search.propTypes = {
-  searchUsers: PropTypes.func.isRequired,
-  clearUsers: PropTypes.func.isRequired,
   showClear: PropTypes.bool.isRequired,
 };
 

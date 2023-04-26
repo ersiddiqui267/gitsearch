@@ -1,9 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import RepoItem from "./RepoItem";
+import GithubContext from "../../contexts/github/githubContext";
 
-const Repos = function ({ repos }) {
-  if (!repos.length)
+const Repos = function () {
+  const githubContext = useContext(GithubContext);
+
+  if (!githubContext.repos.length)
     return (
       <div className="border">
         <p>No Repos Yet!</p>
@@ -12,15 +14,11 @@ const Repos = function ({ repos }) {
 
   return (
     <div className="border p-0 m-0 list-group list-group-flush">
-      {repos.map((repo) => (
+      {githubContext.repos.map((repo) => (
         <RepoItem key={repo.id} repo={repo} />
       ))}
     </div>
   );
-};
-
-Repos.propTypes = {
-  repos: PropTypes.array.isRequired,
 };
 
 export default Repos;
