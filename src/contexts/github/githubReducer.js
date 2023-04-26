@@ -17,7 +17,6 @@ const githubReducer = function (state, action) {
         ...state,
         loading: true,
         showAlert: false,
-        showClear: false,
       };
 
     case SET_USERS:
