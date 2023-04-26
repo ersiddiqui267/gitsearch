@@ -10,6 +10,8 @@ import {
   SET_REPOS,
   SET_USER,
   SET_USERS,
+  SET_QUERY,
+  CLEAR_QUERY,
 } from "../types";
 
 const GithubState = function (props) {
@@ -19,6 +21,8 @@ const GithubState = function (props) {
     repos: [],
     loading: false,
     showAlert: false,
+    showClear: false,
+    query: ``,
   };
 
   const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -93,6 +97,25 @@ const GithubState = function (props) {
       type: CLEAR_USERS,
     });
 
+  const handleChange = (e) =>
+    dispatch({
+      type: SET_QUERY,
+      payload: e.target.value,
+    });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    searchUsers(state.query);
+    dispatch({
+      type: CLEAR_QUERY,
+    });
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    clearUsers();
+  };
+
   return (
     <GithubContext.Provider
       value={{
@@ -101,10 +124,15 @@ const GithubState = function (props) {
         repos: state.repos,
         loading: state.loading,
         showAlert: state.showAlert,
+        showClear: state.showClear,
+        query: state.query,
         searchUsers,
         getUser,
         getRepos,
         clearUsers,
+        handleChange,
+        handleSubmit,
+        handleClick,
       }}
     >
       {props.children}

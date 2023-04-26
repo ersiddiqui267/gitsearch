@@ -6,6 +6,8 @@ import {
   SET_REPOS,
   SET_USER,
   SET_USERS,
+  SET_QUERY,
+  CLEAR_QUERY,
 } from "../types";
 
 const githubReducer = function (state, action) {
@@ -15,6 +17,7 @@ const githubReducer = function (state, action) {
         ...state,
         loading: true,
         showAlert: false,
+        showClear: false,
       };
 
     case SET_USERS:
@@ -22,12 +25,14 @@ const githubReducer = function (state, action) {
         ...state,
         users: action.payload,
         loading: false,
+        showClear: action.payload.length > 0 ? true : false,
       };
 
     case CLEAR_USERS:
       return {
         ...state,
         users: [],
+        showClear: false,
       };
 
     case SET_ALERT:
@@ -54,6 +59,19 @@ const githubReducer = function (state, action) {
         ...state,
         repos: action.payload,
       };
+
+    case SET_QUERY:
+      return {
+        ...state,
+        query: action.payload,
+      };
+
+    case CLEAR_QUERY:
+      return {
+        ...state,
+        query: ``,
+      };
+
     default:
       return state;
   }

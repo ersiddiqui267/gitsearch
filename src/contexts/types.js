@@ -5,3 +5,5 @@ export const SET_REPOS = `SET_REPOS`;
 export const SET_LOADING = `SET_LOADING`;
 export const SET_ALERT = `SET_ALERT`;
 export const HIDE_ALERT = `HIDE_ALERT`;
+export const SET_QUERY = `SET_QUERY`;
+export const CLEAR_QUERY = `CLEAR_QUERY`;
